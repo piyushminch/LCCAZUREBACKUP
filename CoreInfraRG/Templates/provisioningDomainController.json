@@ -41,9 +41,10 @@
   },
   "resources": [
     {
-      "apiVersion": "2015-06-15",
+
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[parameters('adVMName')]",
+      "apiVersion": "2015-06-15",
       "location": "[parameters('location')]",
       "properties": {
         "hardwareProfile": {
@@ -79,8 +80,8 @@
               },
               "name": "[concat(parameters('adVMName'),'-data-disk1')]",
               "caching": "None",
-              "createOption": "empty",
-              "diskSizeGB": 1000,
+              "createOption": "[concat('empty')]",
+              "diskSizeGB": "1000",
               "lun": 0
             }
           ]

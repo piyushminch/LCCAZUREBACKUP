@@ -8,16 +8,12 @@
   },
   "resources": [
     {
-      "type": "Microsoft.Compute/availabilitySets",
-      "name": "[parameters('adAvailabilitySetName')]",
       "apiVersion": "2015-06-15",
       "location": "[resourceGroup().location]",
-      "properties": {
-        "platformFaultDomainCount": "2",
-        "platformUpdateDomainCount": "2"
-      }
+      "name": "[parameters('adAvailabilitySetName')]",
+      "type": "Microsoft.Compute/availabilitySets"
     }
-   
+
   ],
-  "outputs": {}
+  "outputs": { }
 }
