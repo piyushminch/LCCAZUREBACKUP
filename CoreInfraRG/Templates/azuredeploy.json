@@ -113,12 +113,9 @@
     "adSubnetName": "adsn",
     "devSubnetName": "devsn",
     "adNicName": "adNic",
-    "sqlNicName": "sqlNic",
-    "spNicName": "spNic",
     "VnetID": "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
     "adSubnetRef": "[concat(variables('VnetID'),'/subnets/',variables('adSubnetName'))]",
     "adNicId": "[resourceId('Microsoft.Network/networkInterfaces',variables('adNicName'))]",
-    "sqlNicId": "[resourceId('Microsoft.Network/networkInterfaces',variables('sqlNicName'))]",
     "adLBName": "adLoadBalancer",
     "adIPConfigID": "[concat(variables('adNicId'),'/ipConfigurations/ipconfig1')]",
     "adlbID": "[resourceId('Microsoft.Network/loadBalancers',variables('adLBName'))]",
@@ -284,9 +281,7 @@
           "adlbName": {
             "value": "[variables('adLBName')]"
           },
-          "spPublicIPResourceId": {
-            "value": "[variables(concat('SpPublicIP',parameters('spPublicIPNewOrExisting')))]"
-          },
+        
           "adPublicIpResourceId": {
             "value": "[variables('adPublicIpResourceId')]"
           }
@@ -328,13 +323,7 @@
           "adRDPNATRuleID": {
             "value": "[variables('adRDPNATRuleID')]"
           },
-          "sqlNicName": {
-            "value": "[variables('sqlNicName')]"
-          },
-         
-          "spNicName": {
-            "value": "[variables('spNicName')]"
-          },
+        
          
           "LBBE": {
             "value": "[variables('LBBE')]"
@@ -439,9 +428,6 @@
     }
   ],
   "outputs": {
-    "fqdn": {
-      "value": "[variables('spFQDN')]",
-      "type": "string"
-    }
+   
   }
 }
