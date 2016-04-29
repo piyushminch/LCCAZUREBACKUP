@@ -201,234 +201,235 @@
           }
         }
       }
-    },
-    {
-      "name": "CreatingAvailabilitySets",
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2015-01-01",
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "[variables('CreatingAvailabilitySetsUrl')]",
-          "contentVersion": "1.0.0.0"
-        },
-        "parameters": {
-          "location": {
-            "value": "[parameters('location')]"
-          },
-          "adAvailabilitySetName": {
-            "value": "[variables('adAvailabilitySetName')]"
-          }
+    }
+    //,
+    //{
+    //  "name": "CreatingAvailabilitySets",
+    //  "type": "Microsoft.Resources/deployments",
+    //  "apiVersion": "2015-01-01",
+    //  "properties": {
+    //    "mode": "Incremental",
+    //    "templateLink": {
+    //      "uri": "[variables('CreatingAvailabilitySetsUrl')]",
+    //      "contentVersion": "1.0.0.0"
+    //    },
+    //    "parameters": {
+    //      "location": {
+    //        "value": "[parameters('location')]"
+    //      },
+    //      "adAvailabilitySetName": {
+    //        "value": "[variables('adAvailabilitySetName')]"
+    //      }
 
-        }
-      }
-    },
-    {
-      "name": "SettingUpVirtualNetwork",
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2015-01-01",
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "[variables('vnetSetupURL')]",
-          "contentVersion": "1.0.0.0"
-        },
-        "parameters": {
-          "location": {
-            "value": "[parameters('location')]"
-          },
-          "virtualNetworkName": {
-            "value": "[parameters('virtualNetworkName')]"
-          },
-          "virtualNetworkAddressRange": {
-            "value": "[parameters('virtualNetworkAddressRange')]"
-          },
-          "subnets": {
-            "value": "[variables('subnets')]"
-          }
-        }
-      }
-    },
-    {
-      "name": "SettingUpLoadBalancers",
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2015-01-01",
-      "dependsOn": [
+    //    }
+    //  }
+    //},
+    //{
+    //  "name": "SettingUpVirtualNetwork",
+    //  "type": "Microsoft.Resources/deployments",
+    //  "apiVersion": "2015-01-01",
+    //  "properties": {
+    //    "mode": "Incremental",
+    //    "templateLink": {
+    //      "uri": "[variables('vnetSetupURL')]",
+    //      "contentVersion": "1.0.0.0"
+    //    },
+    //    "parameters": {
+    //      "location": {
+    //        "value": "[parameters('location')]"
+    //      },
+    //      "virtualNetworkName": {
+    //        "value": "[parameters('virtualNetworkName')]"
+    //      },
+    //      "virtualNetworkAddressRange": {
+    //        "value": "[parameters('virtualNetworkAddressRange')]"
+    //      },
+    //      "subnets": {
+    //        "value": "[variables('subnets')]"
+    //      }
+    //    }
+    //  }
+    //},
+    //{
+    //  "name": "SettingUpLoadBalancers",
+    //  "type": "Microsoft.Resources/deployments",
+    //  "apiVersion": "2015-01-01",
+    //  "dependsOn": [
       
-        "Microsoft.Resources/deployments/SettingUpPublicIPs"
-      ],
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "[variables('setupLBsUrl')]",
-          "contentVersion": "1.0.0.0"
-        },
-        "parameters": {
-          "location": {
-            "value": "[parameters('location')]"
-          },
+    //    "Microsoft.Resources/deployments/SettingUpPublicIPs"
+    //  ],
+    //  "properties": {
+    //    "mode": "Incremental",
+    //    "templateLink": {
+    //      "uri": "[variables('setupLBsUrl')]",
+    //      "contentVersion": "1.0.0.0"
+    //    },
+    //    "parameters": {
+    //      "location": {
+    //        "value": "[parameters('location')]"
+    //      },
 
-          "LBFE": {
-            "value": "[variables('LBFE')]"
-          },
-          "LBBE": {
-            "value": "[variables('LBBE')]"
-          },
-          "RDPNAT": {
-            "value": "[variables('RDPNAT')]"
-          },
+    //      "LBFE": {
+    //        "value": "[variables('LBFE')]"
+    //      },
+    //      "LBBE": {
+    //        "value": "[variables('LBBE')]"
+    //      },
+    //      "RDPNAT": {
+    //        "value": "[variables('RDPNAT')]"
+    //      },
 
-          "adlbName": {
-            "value": "[variables('adLBName')]"
-          },
+    //      "adlbName": {
+    //        "value": "[variables('adLBName')]"
+    //      },
         
-          "adPublicIpResourceId": {
-            "value": "[variables('adPublicIpResourceId')]"
-          }
+    //      "adPublicIpResourceId": {
+    //        "value": "[variables('adPublicIpResourceId')]"
+    //      }
 
-        }
-      }
-    },
-    {
-      "name": "CreatingNetworkInterfaces",
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2015-01-01",
-      "dependsOn": [
-        "Microsoft.Resources/deployments/SettingUpVirtualNetwork",
-        "Microsoft.Resources/deployments/SettingUpLoadBalancers",
-        "Microsoft.Resources/deployments/SettingUpVirtualNetwork"
-      ],
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "[variables('creatingNICSUrl')]",
-          "contentVersion": "1.0.0.0"
-        },
-        "parameters": {
-          "location": {
-            "value": "[parameters('location')]"
-          },
-          "adNicName": {
-            "value": "[variables('adNicName')]"
-          },
-          "adNicIPAddress": {
-            "value": "[parameters('adNicIPAddress')]"
-          },
-          "adSubnetRef": {
-            "value": "[variables('adSubnetRef')]"
-          },
-          "adBEAddressPoolID": {
-            "value": "[variables('adBEAddressPoolID')]"
-          },
-          "adRDPNATRuleID": {
-            "value": "[variables('adRDPNATRuleID')]"
-          },
+    //    }
+    //  }
+    //},
+    //{
+    //  "name": "CreatingNetworkInterfaces",
+    //  "type": "Microsoft.Resources/deployments",
+    //  "apiVersion": "2015-01-01",
+    //  "dependsOn": [
+    //    "Microsoft.Resources/deployments/SettingUpVirtualNetwork",
+    //    "Microsoft.Resources/deployments/SettingUpLoadBalancers",
+    //    "Microsoft.Resources/deployments/SettingUpVirtualNetwork"
+    //  ],
+    //  "properties": {
+    //    "mode": "Incremental",
+    //    "templateLink": {
+    //      "uri": "[variables('creatingNICSUrl')]",
+    //      "contentVersion": "1.0.0.0"
+    //    },
+    //    "parameters": {
+    //      "location": {
+    //        "value": "[parameters('location')]"
+    //      },
+    //      "adNicName": {
+    //        "value": "[variables('adNicName')]"
+    //      },
+    //      "adNicIPAddress": {
+    //        "value": "[parameters('adNicIPAddress')]"
+    //      },
+    //      "adSubnetRef": {
+    //        "value": "[variables('adSubnetRef')]"
+    //      },
+    //      "adBEAddressPoolID": {
+    //        "value": "[variables('adBEAddressPoolID')]"
+    //      },
+    //      "adRDPNATRuleID": {
+    //        "value": "[variables('adRDPNATRuleID')]"
+    //      },
         
          
-          "LBBE": {
-            "value": "[variables('LBBE')]"
-          },
-          "RDPNAT": {
-            "value": "[variables('RDPNAT')]"
-          }
+    //      "LBBE": {
+    //        "value": "[variables('LBBE')]"
+    //      },
+    //      "RDPNAT": {
+    //        "value": "[variables('RDPNAT')]"
+    //      }
         
-        }
-      }
-    },
-    {
-      "name": "ProvisioningADDomainController",
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2015-01-01",
-      "dependsOn": [
-        "Microsoft.Resources/deployments/SettingUpStorageAccount",
-        "Microsoft.Resources/deployments/CreatingNetworkInterfaces",
-        "Microsoft.Resources/deployments/CreatingAvailabilitySets",
-        "Microsoft.Resources/deployments/SettingUpLoadBalancers"
-      ],
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "[variables('ProvisioningADDomainControllerUrl')]",
-          "contentVersion": "1.0.0.0"
-        },
-        "parameters": {
-          "location": {
-            "value": "[parameters('location')]"
-          },
-          "adVMName": {
-            "value": "[variables('adVMName')]"
-          },
-          "adVMSize": {
-            "value": "[parameters('adVMSize')]"
-          },
-          "adAvailabilitySetName": {
-            "value": "[variables('adAvailabilitySetName')]"
-          },
-          "adminUsername": {
-            "value": "[parameters('adminUsername')]"
-          },
-          "adminPassword": {
-            "value": "[parameters('adminPassword')]"
-          },
-          "storageAccountNamePrefix": {
-            "value": "[parameters('storageAccountNamePrefix')]"
-          },
-          "adDataDisk": {
-            "value": "[variables('adDataDisk')]"
-          },
-          "adNicName": {
-            "value": "[variables('adNicName')]"
-          },
-          "adModulesURL": {
-            "value": "[variables('adModulesURL')]"
-          },
-          "adConfigurationFunction": {
-            "value": "[variables('adConfigurationFunction')]"
-          },
-          "domainName": {
-            "value": "[parameters('domainName')]"
-          }
-        }
-      }
-    },
+    //    }
+    //  }
+    //},
+    //{
+    //  "name": "ProvisioningADDomainController",
+    //  "type": "Microsoft.Resources/deployments",
+    //  "apiVersion": "2015-01-01",
+    //  "dependsOn": [
+    //    "Microsoft.Resources/deployments/SettingUpStorageAccount",
+    //    "Microsoft.Resources/deployments/CreatingNetworkInterfaces",
+    //    "Microsoft.Resources/deployments/CreatingAvailabilitySets",
+    //    "Microsoft.Resources/deployments/SettingUpLoadBalancers"
+    //  ],
+    //  "properties": {
+    //    "mode": "Incremental",
+    //    "templateLink": {
+    //      "uri": "[variables('ProvisioningADDomainControllerUrl')]",
+    //      "contentVersion": "1.0.0.0"
+    //    },
+    //    "parameters": {
+    //      "location": {
+    //        "value": "[parameters('location')]"
+    //      },
+    //      "adVMName": {
+    //        "value": "[variables('adVMName')]"
+    //      },
+    //      "adVMSize": {
+    //        "value": "[parameters('adVMSize')]"
+    //      },
+    //      "adAvailabilitySetName": {
+    //        "value": "[variables('adAvailabilitySetName')]"
+    //      },
+    //      "adminUsername": {
+    //        "value": "[parameters('adminUsername')]"
+    //      },
+    //      "adminPassword": {
+    //        "value": "[parameters('adminPassword')]"
+    //      },
+    //      "storageAccountNamePrefix": {
+    //        "value": "[parameters('storageAccountNamePrefix')]"
+    //      },
+    //      "adDataDisk": {
+    //        "value": "[variables('adDataDisk')]"
+    //      },
+    //      "adNicName": {
+    //        "value": "[variables('adNicName')]"
+    //      },
+    //      "adModulesURL": {
+    //        "value": "[variables('adModulesURL')]"
+    //      },
+    //      "adConfigurationFunction": {
+    //        "value": "[variables('adConfigurationFunction')]"
+    //      },
+    //      "domainName": {
+    //        "value": "[parameters('domainName')]"
+    //      }
+    //    }
+    //  }
+    //},
 
 
 
-    {
-      "name": "UpdatingDNStoPrimaryADVM",
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2015-01-01",
-      "dependsOn": [
-        "Microsoft.Resources/deployments/ProvisioningADDomainController"
+    //{
+    //  "name": "UpdatingDNStoPrimaryADVM",
+    //  "type": "Microsoft.Resources/deployments",
+    //  "apiVersion": "2015-01-01",
+    //  "dependsOn": [
+    //    "Microsoft.Resources/deployments/ProvisioningADDomainController"
       
-      ],
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "[variables('vnetwithDNSTemplateUrl')]",
-          "contentVersion": "1.0.0.0"
-        },
-        "parameters": {
-          "location": {
-            "value": "[parameters('location')]"
-          },
-          "virtualNetworkName": {
-            "value": "[parameters('virtualNetworkName')]"
-          },
-          "virtualNetworkAddressRange": {
-            "value": "[parameters('virtualNetworkAddressRange')]"
-          },
-          "subnets": {
-            "value": "[variables('subnets')]"
-          },
-          "DNSServerAddress": {
-            "value": [
-              "[parameters('adNicIPAddress')]"
-            ]
-          }
-        }
-      }
-    }
+    //  ],
+    //  "properties": {
+    //    "mode": "Incremental",
+    //    "templateLink": {
+    //      "uri": "[variables('vnetwithDNSTemplateUrl')]",
+    //      "contentVersion": "1.0.0.0"
+    //    },
+    //    "parameters": {
+    //      "location": {
+    //        "value": "[parameters('location')]"
+    //      },
+    //      "virtualNetworkName": {
+    //        "value": "[parameters('virtualNetworkName')]"
+    //      },
+    //      "virtualNetworkAddressRange": {
+    //        "value": "[parameters('virtualNetworkAddressRange')]"
+    //      },
+    //      "subnets": {
+    //        "value": "[variables('subnets')]"
+    //      },
+    //      "DNSServerAddress": {
+    //        "value": [
+    //          "[parameters('adNicIPAddress')]"
+    //        ]
+    //      }
+    //    }
+    //  }
+    //}
   ],
   "outputs": {
    
