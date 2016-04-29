@@ -13,7 +13,7 @@
       "metadata": {
         "description": "The name of the Virtual Network to Create"
       },
-      "defaultValue": "spfarmVNET"
+      "defaultValue": "pilotVn"
     },
     "virtualNetworkAddressRange": {
       "type": "string",
@@ -22,12 +22,26 @@
       },
       "defaultValue": "10.0.0.0/16"
     },
+    "adVMNamePrefix": {
+      "type": "string",
+      "metadata": {
+        "description": "The name of the AD VM"
+      },
+      "defaultValue": "lccadc"
+    },
     "adSubnet": {
       "type": "string",
       "metadata": {
         "description": "The address range of the AD subnet created in the new VNET"
       },
       "defaultValue": "10.0.0.0/24"
+    },
+    "devSubnet": {
+      "type": "string",
+      "metadata": {
+        "description": "The address range of the AD subnet created in the new VNET"
+      },
+      "defaultValue": "10.0.1.0/24"
     },
     "adNicIPAddress": {
       "type": "string",
@@ -60,7 +74,7 @@
       "metadata": {
         "description": "The FQDN of the AD Domain created "
       },
-      "defaultValue": "contoso.local"
+      "defaultValue": "azure.leeds.gov.uk"
     },
     "baseUrl": {
       "type": "string",
@@ -79,7 +93,7 @@
     "storageAccountType": {
       "type": "string",
       "allowedValues": [
-        "Premium_LRS",
+
         "Standard_LRS",
         "Standard_GRS"
 
@@ -87,16 +101,17 @@
       "metadata": {
         "description": "The type of the Storage Account created"
       },
-      "defaultValue": "Premium_LRS"
+      "defaultValue": "Standard_LRS"
     }
   },
   "variables": {
-    "assetLocation":"[concat(parameters('baseUrl'),'/dsc')]",
-    "adVMName": "[concat(parameters('sharepointFarmName'),'-ad')]",
+    "assetLocation": "[concat(parameters('baseUrl'),'/dsc')]",
+    "adVMName": "[concat(parameters('adVMNamePrefix'),'01')]",
     "LBFE": "LBFE",
     "LBBE": "LBBE",
     "RDPNAT": "RDP",
-    "adSubnetName": "adSubnet",
+    "adSubnetName": "adsn",
+    "devSubnetName": "devsn",
     "adNicName": "adNic",
     "sqlNicName": "sqlNic",
     "spNicName": "spNic",
@@ -123,15 +138,9 @@
         }
       },
       {
-        "name": "[variables('sqlSubnetName')]",
+        "name": "[variables('devSubnetName')]",
         "properties": {
-          "addressPrefix": "[parameters('sqlSubnet')]"
-        }
-      },
-      {
-        "name": "[variables('spSubnetName')]",
-        "properties": {
-          "addressPrefix": "[parameters('spSubnet')]"
+          "addressPrefix": "[parameters('devSubnet')]"
         }
       }
     ],
@@ -192,9 +201,7 @@
           "adpublicIPAddressName": {
             "value": "[variables('adpublicIPAddressName')]"
           },
-          "sqlpublicIPAddressName": {
-            "value": "[variables('sqlpublicIPAddressName')]"
-          },
+
           "publicIPAddressType": {
             "value": "[variables('publicIPAddressType')]"
           }
@@ -217,13 +224,8 @@
           },
           "adAvailabilitySetName": {
             "value": "[variables('adAvailabilitySetName')]"
-          },
-          "sqlAvailabilitySetName": {
-            "value": "[variables('sqlAvailabilitySetName')]"
-          },
-          "spAvailabilitySetName": {
-            "value": "[variables('spAvailabilitySetName')]"
           }
+
         }
       }
     },
@@ -271,12 +273,7 @@
           "location": {
             "value": "[parameters('location')]"
           },
-          "spLBName": {
-            "value": "[variables('spLBName')]"
-          },
-          "sqllbName": {
-            "value": "[variables('sqlLBName')]"
-          },
+
           "LBFE": {
             "value": "[variables('LBFE')]"
           },
@@ -286,12 +283,7 @@
           "RDPNAT": {
             "value": "[variables('RDPNAT')]"
           },
-          "spWebNAT": {
-            "value": "[variables('spWebNAT')]"
-          },
-          "spCANAT": {
-            "value": "[variables('spCANAT')]"
-          },
+
           "adlbName": {
             "value": "[variables('adLBName')]"
           },
@@ -300,10 +292,8 @@
           },
           "adPublicIpResourceId": {
             "value": "[variables('adPublicIpResourceId')]"
-          },
-          "sqlPublicIpResourceId": {
-            "value": "[variables('sqlPublicIpResourceId')]"
           }
+
         }
       }
     },
@@ -344,36 +334,18 @@
           "sqlNicName": {
             "value": "[variables('sqlNicName')]"
           },
-          "sqlSubnetRef": {
-            "value": "[variables('sqlSubnetRef')]"
-          },
-          "sqlBEAddressPoolID": {
-            "value": "[variables('sqlBEAddressPoolID')]"
-          },
-          "sqlRDPNATRuleID": {
-            "value": "[variables('sqlRDPNATRuleID')]"
-          },
+         
           "spNicName": {
             "value": "[variables('spNicName')]"
           },
-          "spSubnetRef": {
-            "value": "[variables('spSubnetRef')]"
-          },
-          "splbResourceId": {
-            "value": "[variables('splbResourceId')]"
-          },
+         
           "LBBE": {
             "value": "[variables('LBBE')]"
           },
           "RDPNAT": {
             "value": "[variables('RDPNAT')]"
-          },
-          "spWebNAT": {
-            "value": "[variables('spWebNAT')]"
-          },
-          "spCANAT": {
-            "value": "[variables('spCANAT')]"
           }
+        
         }
       }
     },
