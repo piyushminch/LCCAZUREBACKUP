@@ -155,10 +155,7 @@
     "setupLBsUrl": "[concat(parameters('baseUrl'),'/loadBalancers.json')]",
     "creatingNICSUrl": "[concat(parameters('baseUrl'),'/creatingNICS.json')]",
     "ProvisioningADDomainControllerUrl": "[concat(parameters('baseUrl'),'/provisioningDomainController.json')]",
-    "ProvisioningSQLUrl": "[concat(parameters('baseUrl'),'/provisioningSQL.json')]",
-    "provisioningSharepointUrl": "[concat(parameters('baseUrl'),'/provisioningSharepoint.json')]",
-    "configuringSQLUrl": "[concat(parameters('baseUrl'),'/configuringSQL.json')]",
-    "configuringSharepointUrl": "[concat(parameters('baseUrl'),'/configuringSharepoint.json')]"
+   
   },
   "resources": [
     {
@@ -260,7 +257,7 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2015-01-01",
       "dependsOn": [
-        "Microsoft.Resources/deployments/SettingUpSharepointIP",
+      
         "Microsoft.Resources/deployments/SettingUpPublicIPs"
       ],
       "properties": {
@@ -410,9 +407,8 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2015-01-01",
       "dependsOn": [
-        "Microsoft.Resources/deployments/ProvisioningADDomainController",
-        "Microsoft.Resources/deployments/ProvisioningSQLServerVM",
-        "Microsoft.Resources/deployments/ProvisioningSharepointVM"
+        "Microsoft.Resources/deployments/ProvisioningADDomainController"
+      
       ],
       "properties": {
         "mode": "Incremental",
