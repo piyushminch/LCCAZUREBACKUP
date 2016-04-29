@@ -391,6 +391,9 @@
         }
       }
     },
+
+
+
     {
       "name": "UpdatingDNStoPrimaryADVM",
       "type": "Microsoft.Resources/deployments",
